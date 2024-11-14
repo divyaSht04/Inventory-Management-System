@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "vendor")
 @Data
 @NoArgsConstructor
-public class Supplier {
+public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +19,6 @@ public class Supplier {
     private String name;
     private String contact;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany
     private List<Product> products = new ArrayList<>();
-
 }

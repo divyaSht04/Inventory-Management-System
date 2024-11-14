@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,4 +23,9 @@ public class User {
     private String email;
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    private List<Order> orders = new ArrayList<>();
 }
