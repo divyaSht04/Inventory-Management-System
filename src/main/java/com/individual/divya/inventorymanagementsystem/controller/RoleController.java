@@ -24,7 +24,6 @@ public class RoleController {
             roleService.saveRole(role);
             return new ResponseEntity<>("Role created successfully", HttpStatus.CREATED);
         }
-
     }
 
     @GetMapping

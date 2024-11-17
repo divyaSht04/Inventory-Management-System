@@ -15,16 +15,14 @@ import java.util.List;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Double price;
     private String description;
+    private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
-
-    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 }

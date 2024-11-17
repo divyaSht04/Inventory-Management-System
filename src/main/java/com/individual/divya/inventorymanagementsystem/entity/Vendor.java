@@ -1,5 +1,6 @@
 package com.individual.divya.inventorymanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Vendor {
     private String name;
     private String contact;
 
-    @OneToMany
-    private List<Product> products = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "vendors")
+    private List<Order> orders = new ArrayList<>();
 }

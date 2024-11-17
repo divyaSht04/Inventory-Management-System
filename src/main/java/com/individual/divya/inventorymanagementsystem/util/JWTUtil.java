@@ -37,7 +37,7 @@ public class JWTUtil {
                 .claims(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 1000 * 5)) // 5 mins
+                .expiration(new Date(System.currentTimeMillis() + 60 * 1000 * 15)) // 15 minutes
                 .signWith(getKey())
                 .compact();
     }

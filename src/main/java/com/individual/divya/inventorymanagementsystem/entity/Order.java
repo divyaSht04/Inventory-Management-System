@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String orderDate;
+    private LocalDate orderDate;
     private double totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private Users user;
-
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 
+    private String status;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Vendor> vendors = new ArrayList<>();
 }

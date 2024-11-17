@@ -51,18 +51,18 @@ public class UserController {
         Users existingUser = userService.findByEmail(users.getEmail());
         if (existingUser != null) return new ResponseEntity<>("User with email already exists", HttpStatus.CONFLICT);
 
-        Role role1 = roleService.findByName("User");
+        Role role1 = roleService.findByName("Staff");
         if (role1 == null){
-            throw new RuntimeException("User role not found");
+            throw new RuntimeException("Staff role not found");
         }
 
-//        Role role2 = roleService.findByName("Admin");
-//        if (role2 == null){
-//            throw new RuntimeException("Admin role not found");
-//        }
+        Role role2 = roleService.findByName("Admin");
+        if (role2 == null){
+            throw new RuntimeException("Admin role not found");
+        }
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         users.getRoles().add(role1);
-//        users.getRoles().add(role2);
+        users.getRoles().add(role2);
 
         userService.saveUser(users);
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
@@ -75,7 +75,6 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(users.getEmail(), users.getPassword())
             );
 
-            // on successful authentication
             if (authentication.isAuthenticated()) {
                 String token = jwtUtil.generateToken(users.getEmail());
                 return new ResponseEntity<>(token, HttpStatus.OK);
@@ -84,7 +83,8 @@ public class UserController {
             }
 
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>("An error occurred " + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

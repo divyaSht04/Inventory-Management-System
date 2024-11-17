@@ -1,5 +1,6 @@
 package com.individual.divya.inventorymanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +20,10 @@ public class Users {
     private String firstName;
     private String lastName;
 
-    @Column(unique=true,nullable=false)
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
-
-    @OneToMany
-    private List<Order> orders = new ArrayList<>();
 }
