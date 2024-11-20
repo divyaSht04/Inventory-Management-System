@@ -1,15 +1,17 @@
 package com.individual.divya.inventorymanagementsystem.service;
 
 import com.individual.divya.inventorymanagementsystem.entity.Order;
-import com.individual.divya.inventorymanagementsystem.entity.Product;
-import com.individual.divya.inventorymanagementsystem.entity.Users;
 import com.individual.divya.inventorymanagementsystem.exception.OrderNotFoundException;
 import com.individual.divya.inventorymanagementsystem.repository.OrderRepository;
-import com.individual.divya.inventorymanagementsystem.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,4 +43,10 @@ public class OrderService {
         existingOrder.getVendors().clear();
         orderRepository.delete(existingOrder);
     }
+
+    public Order getOrderById2(long id) {
+        return orderRepository.findById(id)
+               .orElseThrow(() -> new OrderNotFoundException("Order with id: " + id + " not found"));
+    }
+
 }

@@ -89,7 +89,7 @@ public class UserController {
     }
 
     @PutMapping("/{email}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('staff')")
     public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody Users users) {
 
         Users existingUser = userService.getByEmail(email);
@@ -105,7 +105,7 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('staff ')")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         Users user = userService.getByEmail(email);
         if (user!= null) return new ResponseEntity<>(user, HttpStatus.OK);

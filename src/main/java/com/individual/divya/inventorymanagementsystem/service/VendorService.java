@@ -31,13 +31,26 @@ public class VendorService {
         }
     }
 
-    public List<Vendor> getVendorByID(Long vendorID){
-        Optional<Vendor> vendor = vendorRepository.findById(vendorID);
+    public Vendor getVendorByID(Long vendorID){
+        return vendorRepository.findById(vendorID)
+                .orElseThrow(() -> new VendorNotFoundException("Vendor with id: " + vendorID + " not found"));
+    }
 
-        if (vendor.isPresent()){
-            return List.of(vendor.get());
+    public void deleteVendor(long vendorId) {
+        try{
+            Optional<Vendor> vendor = vendorRepository.findById(vendorId);
+            if(vendor.isPresent()){
+
+                // Remove orders associated with the vendor
+                vendor.get().getOrders().forEach(order -> order.getVendors()
+                        .removeIf(v->v.getId() == vendorId));
+
+                vendorRepository.deleteById(vendorId);
+            }else{
+                throw new VendorNotFoundException("Vendor not found with ID: " + vendorId);
+            }
+        }catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-
-        throw new VendorNotFoundException("Vendor with id: " + vendor + " not found");
     }
 }

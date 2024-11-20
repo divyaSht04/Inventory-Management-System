@@ -3,6 +3,7 @@ package com.individual.divya.inventorymanagementsystem.controller;
 import com.individual.divya.inventorymanagementsystem.entity.Order;
 import com.individual.divya.inventorymanagementsystem.entity.Vendor;
 import com.individual.divya.inventorymanagementsystem.exception.NoOrdersFoundException;
+import com.individual.divya.inventorymanagementsystem.exception.VendorNotFoundException;
 import com.individual.divya.inventorymanagementsystem.service.OrderService;
 import com.individual.divya.inventorymanagementsystem.service.UserService;
 import com.individual.divya.inventorymanagementsystem.service.VendorService;
@@ -24,6 +25,8 @@ public class OrderController {
 
     @Autowired
     public UserService userService;
+
+    @Autowired
     private VendorService vendorService;
 
     @GetMapping
@@ -107,13 +110,12 @@ public class OrderController {
     public ResponseEntity<?> assignVendor(@PathVariable Long orderId, @PathVariable Long vendorId) {
         Order existingOrder = orderService.getOrderById(orderId).get(0);
 
-        Vendor vendor = (Vendor) vendorService.getVendorByID(vendorId);
+        Vendor vendor =  vendorService.getVendorByID(vendorId);
 
-        if (existingOrder!= null) {
-            existingOrder.getVendors().add(vendor);
-            orderService.saveOrder(existingOrder);
-            return new ResponseEntity<>(existingOrder, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (existingOrder.getVendors().contains(vendor)) throw new VendorNotFoundException("Vendor already exists");
+
+        existingOrder.getVendors().add(vendor);
+        orderService.saveOrder(existingOrder);
+        return new ResponseEntity<>(existingOrder, HttpStatus.OK);
     }
 }

@@ -29,8 +29,14 @@ public class VendorController {
 
     @GetMapping("/vendorId/{vendorId}")
     public ResponseEntity<?> getVendorById(@PathVariable long vendorId){
-
-        List<Vendor> vendor = vendorService.getVendorByID(vendorId);
+        Vendor vendor = vendorService.getVendorByID(vendorId);
         return new ResponseEntity<>(vendor, HttpStatus.OK);
     }
+
+    @DeleteMapping("/vendorId/{vendorId}")
+    public ResponseEntity<?> deleteVendor(@PathVariable long vendorId){
+        vendorService.deleteVendor(vendorId);
+        return new ResponseEntity<>("Vendor Deleted Successfully", HttpStatus.OK);
+    }
+
 }
