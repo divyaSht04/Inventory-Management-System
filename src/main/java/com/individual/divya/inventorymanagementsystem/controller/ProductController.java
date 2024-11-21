@@ -4,6 +4,8 @@ import com.individual.divya.inventorymanagementsystem.entity.Product;
 import com.individual.divya.inventorymanagementsystem.exception.ProductNotFoundException;
 import com.individual.divya.inventorymanagementsystem.service.OrderService;
 import com.individual.divya.inventorymanagementsystem.service.ProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -13,13 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 
 @RestController
 @RequestMapping("/product")
+@SecurityRequirement(name = "BearerAuth")
+@Tag(name = "PRODUCT API" , description = "The Product Requests section of the Inventory Management System (IMS) API provides endpoints to manage product data effectively. These features allow for retrieving, adding, deleting products, as well as importing and exporting product details via CSV, ensuring streamlined product management.")
 public class ProductController {
 
     @Autowired

@@ -2,6 +2,7 @@ package com.individual.divya.inventorymanagementsystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,9 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
 
     @Column(unique = true, nullable = false)

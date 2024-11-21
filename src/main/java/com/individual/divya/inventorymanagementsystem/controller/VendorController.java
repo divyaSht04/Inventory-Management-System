@@ -2,6 +2,8 @@ package com.individual.divya.inventorymanagementsystem.controller;
 
 import com.individual.divya.inventorymanagementsystem.entity.Vendor;
 import com.individual.divya.inventorymanagementsystem.service.VendorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vendor")
+@Tag(name = "Vendor API", description = "")
+@SecurityRequirement(name = "BearerAuth")
 public class VendorController {
 
     @Autowired

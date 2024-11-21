@@ -3,10 +3,15 @@ package com.individual.divya.inventorymanagementsystem.controller;
 import com.individual.divya.inventorymanagementsystem.entity.Order;
 import com.individual.divya.inventorymanagementsystem.entity.Vendor;
 import com.individual.divya.inventorymanagementsystem.exception.NoOrdersFoundException;
+import com.individual.divya.inventorymanagementsystem.exception.OrderNotFoundException;
+import com.individual.divya.inventorymanagementsystem.exception.VendorExistException;
 import com.individual.divya.inventorymanagementsystem.exception.VendorNotFoundException;
 import com.individual.divya.inventorymanagementsystem.service.OrderService;
 import com.individual.divya.inventorymanagementsystem.service.UserService;
 import com.individual.divya.inventorymanagementsystem.service.VendorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +23,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@SecurityRequirement(name = "BearerAuth")
+@Tag(name = "ORDER API" , description ="The Order Requests section of the Inventory Management System (IMS) API provides endpoints to manage orders, including viewing, adding, deleting orders, and assigning vendors to specific orders. These features ensure efficient order handling and vendor management within the system.")
 public class OrderController {
 
     @Autowired
     public OrderService orderService;
-
-    @Autowired
-    public UserService userService;
 
     @Autowired
     private VendorService vendorService;
@@ -46,7 +50,7 @@ public class OrderController {
             return new ResponseEntity<>(orders, HttpStatus.OK);
         }
 
-        throw new NoOrdersFoundException("No orders found");
+        throw new OrderNotFoundException("No orders found");
     }
 
     @GetMapping("/id/{orderId}")
@@ -112,7 +116,9 @@ public class OrderController {
 
         Vendor vendor =  vendorService.getVendorByID(vendorId);
 
-        if (existingOrder.getVendors().contains(vendor)) throw new VendorNotFoundException("Vendor already exists");
+        if (existingOrder.getVendors().contains(vendor)){
+            throw new VendorExistException("Vendor already exists");
+        }
 
         existingOrder.getVendors().add(vendor);
         orderService.saveOrder(existingOrder);

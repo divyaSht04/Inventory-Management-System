@@ -12,4 +12,26 @@ public class GlobalExceptionHandler  {
     public ResponseEntity<?> handleOrderException(NoOrdersFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
     }
+
+    @ExceptionHandler({OrderNotFoundException.class})
+    public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler({ProductNotFoundException.class})
+    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler({VendorNotFoundException.class})
+    public ResponseEntity<String> handleVendorNotFoundException(VendorNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler({UniqueConstraintViolationException.class})
+    public ResponseEntity<String> handleUniqueConstraintsViolation(UniqueConstraintViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+
 }

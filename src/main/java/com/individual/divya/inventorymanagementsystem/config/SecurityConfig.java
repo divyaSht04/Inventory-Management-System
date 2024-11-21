@@ -28,7 +28,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         return security
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/**", "/vendor/**", "/order/**", "/role/**").permitAll()
+                        .requestMatchers("/user/**",
+                                "/v3/api-docs/**", // OpenAPI documentation
+                                "/swagger-ui/**",  // Swagger UI resources
+                                "/swagger-ui.html", // Swagger UI HTML
+                                "/docs/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class)
